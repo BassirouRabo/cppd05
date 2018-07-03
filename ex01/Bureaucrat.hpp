@@ -8,15 +8,25 @@
 class   Bureaucrat {
 
 	class GradeTooHighException: public std::exception {
-		virtual const char *what() const throw() {
-			return ("The grade can't be more than 150");
-		}
+	public:
+		GradeTooHighException(void);
+		GradeTooHighException(GradeTooHighException const & gradeTooHighException);
+		virtual ~GradeTooHighException(void) throw();
+
+		GradeTooHighException &operator=(GradeTooHighException const & gradeTooHighException);
+
+		virtual const char *what() const throw();
 	};
 
 	class GradeTooLowException: public std::exception {
-		virtual const char *what() const throw() {
-			return ("The grade can't be less than 1");
-		}
+	public:
+		GradeTooLowException(void);
+		GradeTooLowException(GradeTooLowException const & gradeTooLowException);
+		virtual ~GradeTooLowException(void) throw();
+
+		GradeTooLowException  &operator= (GradeTooLowException const & gradeTooLowException);
+
+		virtual const char *what() const throw();
 	};
 
 private:
