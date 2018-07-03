@@ -6,6 +6,8 @@
 # include <exception>
 # include "Bureaucrat.hpp"
 
+class Bureaucrat;
+
 class   Form {
 
 	class GradeTooHighException: public std::exception {
@@ -30,8 +32,20 @@ class   Form {
 		virtual const char *what() const throw();
 	};
 
+	class NotSignedException: public std::exception {
+	public:
+		NotSignedException(void);
+		NotSignedException(NotSignedException const & gradeTooLowException);
+		virtual ~NotSignedException(void) throw();
+
+		NotSignedException  &operator= (NotSignedException const & gradeTooLowException);
+
+		virtual const char *what() const throw();
+	};
+
 private:
 	const std::string     _name;
+	const std::string     _target;
 	const int             _grade_to_sign;
 	const int             _grade_to_execute;
 	bool                  _is_signed;
@@ -39,12 +53,13 @@ private:
 	static const int        MAX;
 
 public:
-	Form(std::string name);
-	Form(std::string name, int grade_to_sign, int grade_to_execute);
+	Form(std::string name, std::string target);
+	Form(std::string name, std::string target, int grade_to_sign, int grade_to_execute);
 	Form(Form const & form);
 	~Form(void);
 
 	std::string         getName(void) const;
+	std::string         getTarget(void) const;
 	int                 getGradeToSign(void) const;
 	int                 getGradeToExecute(void) const;
 	bool                getIsSigned(void) const;
@@ -55,6 +70,8 @@ public:
 
 	void    beSigned(Bureaucrat & bureaucrat);
 	void    signForm(Bureaucrat & bureaucrat);
+
+	virtual void              execute(Bureaucrat const & executor) const = 0;
 
 };
 

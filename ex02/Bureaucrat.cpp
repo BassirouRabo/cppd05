@@ -12,7 +12,7 @@ const char *Bureaucrat::GradeTooLowException::what() const throw() {
 }
 
 Bureaucrat::GradeTooHighException::GradeTooHighException(void) {
-	return ;
+	return;
 }
 
 Bureaucrat::GradeTooHighException::GradeTooHighException(GradeTooHighException const &gradeTooHighException) {
@@ -104,4 +104,44 @@ void Bureaucrat::incrementGrade(void) {
 	if (getGrade() - 1 < Bureaucrat::MAX)
 		throw Bureaucrat::GradeTooHighException();
 	this->_grade--;
+}
+
+void Bureaucrat::signForm(Form & form) {
+	try
+	{
+		form.beSigned(*this);
+		std::cout << this->getName()
+		          << " signs "
+		          << form.getName()
+		          << std::endl;
+	}
+	catch (std::exception &exception)
+	{
+		std::cout << this->getGrade()
+		          << " cannot sign "
+		          << form.getName()
+		          << " because "
+		          << exception.what()
+		          << std::endl;
+	}
+}
+
+void Bureaucrat::executeForm(Form const & form) {
+	try
+	{
+		form.execute(*this);
+		std::cout << this->_name
+		          << " executes "
+		          << form.getName()
+		          << " on target "
+		          << form.getTarget()
+		          << std::endl;
+	}
+	catch (std::exception & exception) {
+		std::cout << this->_name
+		          << " has failed to execute "
+		          << form.getName()
+		          << " because "
+		          << exception.what() << std::endl;
+	}
 }

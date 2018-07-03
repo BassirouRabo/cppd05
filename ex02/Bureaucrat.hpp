@@ -4,6 +4,9 @@
 # include <iostream>
 # include <exception>
 # include <string>
+# include "Form.hpp"
+
+class Form;
 
 class   Bureaucrat {
 
@@ -48,6 +51,9 @@ public:
 	void                setGrade(int grade);
 	void                incrementGrade(void);
 	void                decrementGrade(void);
+
+	void					signForm(Form &form);
+	void					executeForm(Form const & form);
 
 	friend std::ostream &operator<<(std::ostream & out, Bureaucrat const & bureaucrat);
 };
